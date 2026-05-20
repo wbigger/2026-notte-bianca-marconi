@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIUCOS — Notte Bianca al Marconi 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600&family=Raleway:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f0c040;
+    --gold-bright: #ffe680;
+    --gold-dim: #b8860b;
+    --amber: #ff9f1c;
+    --sky: #7ec8e3;
+    --deep: #050a1a;
+    --navy: #0a1628;
+    --panel: rgba(10,22,50,0.85);
+    --panel-border: rgba(240,192,64,0.18);
+    --text: #e8dfc0;
+    --text-dim: #8a7f60;
+    --glow: 0 0 24px rgba(240,192,64,0.55), 0 0 60px rgba(240,192,64,0.2);
+    --glow-sm: 0 0 10px rgba(240,192,64,0.4);
+    --radius: 14px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--dur, 4s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: var(--lo, 0.1); transform: scale(1); }
+    50% { opacity: var(--hi, 0.9); transform: scale(1.4); }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+    background: rgba(5,10,26,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+  }
+  .m-badge {
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    color: var(--gold);
+    box-shadow: var(--glow-sm);
+    flex-shrink: 0;
+  }
+  .nav-logo .m-badge { width: 36px; height: 36px; font-size: 1rem; }
+  .nav-logo span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.3rem;
+    list-style: none;
+  }
+  .nav-links a {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); background: rgba(240,192,64,0.08); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+  /* HERO */
+  #hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 80px 1.5rem 3rem;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('./locandina.jpeg') center/cover no-repeat;
+    filter: brightness(0.35) saturate(0.7);
+    transform: scale(1.04);
+    animation: slow-zoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes slow-zoom { to { transform: scale(1.1); } }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 50% 40%, transparent 20%, rgba(5,10,26,0.55) 70%, var(--deep) 100%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 820px; }
+
+  .school-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(10,22,50,0.7);
+    border: 1px solid var(--panel-border);
+    border-radius: 50px;
+    padding: 0.45rem 1.1rem;
+    margin-bottom: 2.2rem;
+    animation: fade-up 0.8s ease both;
+  }
+  .school-badge .m-badge { width: 28px; height: 28px; font-size: 0.8rem; border-width: 1.5px; }
+  .school-badge span { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(4rem, 16vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--gold-bright);
+    text-shadow: var(--glow);
+    letter-spacing: 0.06em;
+    animation: fade-up 0.9s 0.15s ease both, pulse-glow 4s 1s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+  }
+  @keyframes pulse-glow {
+    0%,100% { text-shadow: 0 0 24px rgba(240,192,64,0.55), 0 0 60px rgba(240,192,64,0.2); }
+    50% { text-shadow: 0 0 40px rgba(240,192,64,0.8), 0 0 100px rgba(240,192,64,0.35), 0 0 4px #fff8; }
+  }
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 3.5vw, 1.7rem);
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    animation: fade-up 0.9s 0.3s ease both;
+  }
+  .hero-date-box {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(240,192,64,0.08);
+    border: 1px solid rgba(240,192,64,0.35);
+    border-radius: var(--radius);
+    padding: 1rem 2.2rem;
+    animation: fade-up 0.9s 0.45s ease both;
+    margin-bottom: 2.5rem;
+  }
+  .hero-date-box .date {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-date-box .time {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .hero-cta {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fade-up 0.9s 0.6s ease both;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.8rem;
+    border-radius: 50px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--deep);
+    box-shadow: 0 4px 20px rgba(240,192,64,0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 32px rgba(240,192,64,0.6); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(240,192,64,0.5);
+  }
+  .btn-outline:hover { background: rgba(240,192,64,0.1); border-color: var(--gold); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    color: var(--text-dim); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: fade-up 1s 1s ease both;
+    z-index: 2;
+  }
+  .arrow { width: 20px; height: 30px; border: 1px solid rgba(240,192,64,0.3); border-radius: 10px; display: flex; align-items: flex-start; justify-content: center; padding-top: 5px; }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); animation: scroll-dot 2s ease-in-out infinite; }
+  @keyframes scroll-dot { 0%,100% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(12px); opacity: 0; } }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .section-header { text-align: center; margin-bottom: 3.5rem; }
+  .section-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.15;
+  }
+  .divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1rem auto 0;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--deep) 0%, var(--navy) 50%, var(--deep) 100%);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    box-shadow: 0 0 60px rgba(240,192,64,0.12);
+  }
+  .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .about-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--panel-border);
+    pointer-events: none;
+  }
+  .about-text p { font-size: 1rem; line-height: 1.85; color: var(--text); margin-bottom: 1.2rem; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-text strong { color: var(--gold); font-weight: 600; }
+  .stats-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--panel-border);
+    flex-wrap: wrap;
+  }
+  .stat .num {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: var(--glow-sm);
+  }
+  .stat .lbl { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-top: 0.3rem; }
+
+  /* HIGHLIGHTS */
+  #highlights { padding: 6rem 0; background: var(--deep); }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .hl-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .hl-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(240,192,64,0.5);
+    box-shadow: 0 12px 40px rgba(240,192,64,0.12);
+  }
+  .hl-icon { font-size: 2.4rem; margin-bottom: 1rem; display: block; filter: drop-shadow(0 0 8px rgba(240,192,64,0.4)); }
+  .hl-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .hl-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* PROGRAMMA */
+  #programma {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--deep) 0%, var(--navy) 60%, var(--deep) 100%);
+  }
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .filter-btn {
+    padding: 0.4rem 1.1rem;
+    border-radius: 50px;
+    border: 1px solid var(--panel-border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(240,192,64,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .timeline {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 90px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(240,192,64,0.3) 10%, rgba(240,192,64,0.3) 90%, transparent);
+  }
+  .tl-item {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.2rem;
+    transition: opacity 0.3s;
+  }
+  .tl-item.hidden { display: none; }
+  .tl-time {
+    width: 90px;
+    flex-shrink: 0;
+    padding-right: 1.5rem;
+    text-align: right;
+    padding-top: 1.1rem;
+    position: relative;
+  }
+  .tl-time .t {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .tl-dot {
+    position: absolute;
+    right: -5px;
+    top: 1.3rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(240,192,64,0.7);
+    z-index: 1;
+  }
+  .tl-card {
+    flex: 1;
+    margin-left: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.3rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .tl-card:hover { border-color: rgba(240,192,64,0.4); box-shadow: 0 4px 24px rgba(240,192,64,0.08); }
+  .tl-card .location { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); font-weight: 600; margin-bottom: 0.25rem; }
+  .tl-card .event-name { font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+  .tl-card .desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.55; }
+  .tl-tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    border-radius: 50px;
+    border: 1px solid;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+  .tag-sport   { color: #4fc3f7; border-color: rgba(79,195,247,0.3);  background: rgba(79,195,247,0.07); }
+  .tag-scienza { color: #81c784; border-color: rgba(129,199,132,0.3); background: rgba(129,199,132,0.07); }
+  .tag-tecnologia { color: #ce93d8; border-color: rgba(206,147,216,0.3); background: rgba(206,147,216,0.07); }
+  .tag-cultura { color: var(--gold); border-color: rgba(240,192,64,0.3); background: rgba(240,192,64,0.07); }
+  .tag-musica  { color: var(--amber); border-color: rgba(255,159,28,0.3); background: rgba(255,159,28,0.07); }
+  .tag-bambini { color: #f48fb1; border-color: rgba(244,143,177,0.3); background: rgba(244,143,177,0.07); }
+
+  /* LOCATION */
+  #location { padding: 6rem 0; background: var(--deep); }
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .location-info h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 1rem; }
+  .location-info p { font-size: 0.9rem; line-height: 1.75; color: var(--text); margin-bottom: 0.5rem; }
+  .map-wrap {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 0 40px rgba(240,192,64,0.08);
+    aspect-ratio: 16/9;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; display: block; border: none; filter: grayscale(0.4) brightness(0.85); }
+
+  /* FOOTER */
+  footer {
+    background: rgba(5,10,26,0.98);
+    border-top: 1px solid var(--panel-border);
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  footer .footer-logo { display: inline-flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+  footer .m-badge { width: 44px; height: 44px; font-size: 1.1rem; }
+  footer h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; color: var(--gold); text-shadow: var(--glow-sm); }
+  footer p { font-size: 0.8rem; color: var(--text-dim); line-height: 1.8; margin-top: 0.5rem; }
+  .sep { margin: 1.5rem auto; width: 60px; height: 1px; background: var(--panel-border); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-img-wrap { display: none; }
+    .highlights-grid { grid-template-columns: repeat(2, 1fr); }
+    .location-grid { grid-template-columns: 1fr; }
+    .timeline::before { left: 70px; }
+    .tl-time { width: 70px; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(5,10,26,0.98); border-bottom: 1px solid var(--panel-border); padding: 1rem; }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a { padding: 0.7rem 1rem; }
+    .hamburger { display: flex; }
+    .highlights-grid { grid-template-columns: 1fr; }
+    .timeline::before { display: none; }
+    .tl-item { flex-direction: column; gap: 0.4rem; }
+    .tl-time { width: 100%; text-align: left; padding: 0; display: flex; align-items: center; gap: 0.8rem; }
+    .tl-dot { position: static; }
+    .tl-card { margin-left: 0; }
+    .stats-row { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="starfield"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="m-badge">M</div>
+    <span>IIS Marconi<br>Civitavecchia</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">Chi siamo</a></li>
+    <li><a href="#highlights">Attività</a></li>
+    <li><a href="#programma">Programma</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="school-badge">
+      <div class="m-badge">M</div>
+      <span>IIS G. Marconi &middot; Civitavecchia</span>
+    </div>
+    <h1 class="hero-title">LIUCOS</h1>
+    <p class="hero-subtitle">Notte Bianca al Marconi</p>
+    <div class="hero-date-box">
+      <span class="date">Venerd&igrave; 22 Maggio 2026</span>
+      <span class="time">dalle 17:00 alle 23:00</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#programma" class="btn btn-primary">Scopri il programma</a>
+      <a href="#location" class="btn btn-outline">Come arrivare</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scorri</span>
+    <div class="arrow"><div class="dot"></div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">La nostra scuola</span>
+      <h2 class="section-title">Chi siamo</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="./locandina.jpeg" alt="Locandina LIUCOS Notte Bianca 2026">
+      </div>
+      <div class="about-text reveal">
+        <p>
+          L'<strong>IIS G. Marconi di Civitavecchia</strong> &egrave; un istituto tecnico e professionale che forma ogni anno centinaia di studenti in ambiti che spaziano dall'elettronica all'informatica, dall'elettrotecnica ai trasporti marittimi, fino al turismo e ai servizi sociali.
+        </p>
+        <p>
+          La <strong>Notte Bianca al Marconi</strong> &egrave; il grande evento annuale aperto alla citt&agrave;: una sera in cui le porte della scuola si spalancano per mostrare tutto ci&ograve; che i nostri studenti e docenti sanno fare. Laboratori, tornei, concerti, osservazioni astronomiche, attivit&agrave; per bambini e molto altro ancora.
+        </p>
+        <p>
+          L'edizione 2026 porta il nome <strong>LIUCOS</strong> &mdash; un tema cosmico che celebra la curiosit&agrave;, la luce della conoscenza e l'apertura verso l'universo. Un'intera serata di scienza, tecnologia, cultura e divertimento.
+        </p>
+        <div class="stats-row">
+          <div class="stat"><span class="num">6h</span><span class="lbl">di eventi</span></div>
+          <div class="stat"><span class="num">16+</span><span class="lbl">attivit&agrave;</span></div>
+          <div class="stat"><span class="num">17:00</span><span class="lbl">inizio</span></div>
+          <div class="stat"><span class="num">Gratis</span><span class="lbl">ingresso libero</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="highlights">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Cosa trovi</span>
+      <h2 class="section-title">Le attivit&agrave;</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="highlights-grid">
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x1F52D;</span>
+        <h3>Scienza</h3>
+        <p>Laboratori di chimica, astrofisica, fisica delle particelle e osservazione astronomica con i telescopi degli Astrofili.</p>
+      </div>
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x1F97D;</span>
+        <h3>Tecnologia</h3>
+        <p>Realt&agrave; virtuale premiata, artigianato digitale, escape room, radio Marconi e progetti degli studenti di elettrotecnica.</p>
+      </div>
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x26BD;</span>
+        <h3>Sport</h3>
+        <p>Tornei di basket, calcio balilla e scacchi aperti a tutti i partecipanti per una sana competizione.</p>
+      </div>
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x1F3B5;</span>
+        <h3>Musica</h3>
+        <p>DJ set nel giardino interno, balli di gruppo e un grande concerto finale per concludere la serata in bellezza.</p>
+      </div>
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x1F30D;</span>
+        <h3>Cultura</h3>
+        <p>Erasmus Corner, dialogo tra culture, seminari, laboratorio psico-ludico di benessere e spazio internazionale.</p>
+      </div>
+      <div class="hl-card reveal">
+        <span class="hl-icon">&#x1F3A0;</span>
+        <h3>Bambini</h3>
+        <p>GIOCABIMBI: attivit&agrave; ludiche dedicate ai pi&ugrave; piccoli dai 2 ai 10 anni, in un ambiente sicuro e divertente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="programma">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">22 Maggio 2026</span>
+      <h2 class="section-title">Il programma</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Tutti</button>
+      <button class="filter-btn" data-filter="sport">Sport</button>
+      <button class="filter-btn" data-filter="scienza">Scienza</button>
+      <button class="filter-btn" data-filter="tecnologia">Tecnologia</button>
+      <button class="filter-btn" data-filter="cultura">Cultura</button>
+      <button class="filter-btn" data-filter="musica">Musica</button>
+      <button class="filter-btn" data-filter="bambini">Bambini</button>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item" data-cat="sport">
+        <div class="tl-time"><span class="t">16:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Palestra Grande</div>
+          <div class="event-name">Torneo Basket</div>
+          <div class="desc">Sfide sul campo da basket aperte a studenti e ospiti.</div>
+          <span class="tl-tag tag-sport">Sport</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="sport">
+        <div class="tl-time"><span class="t">17:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Giardino delle Scienze</div>
+          <div class="event-name">Torneo Scacchi</div>
+          <div class="desc">Torneo di scacchi all'aperto sotto il cielo di Civitavecchia.</div>
+          <span class="tl-tag tag-sport">Sport</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="sport">
+        <div class="tl-time"><span class="t">17:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Giardino Interno</div>
+          <div class="event-name">Torneo Calcio Balilla</div>
+          <div class="desc">Sfide di calcio balilla nel cortile interno della scuola.</div>
+          <span class="tl-tag tag-sport">Sport</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="cultura">
+        <div class="tl-time"><span class="t">17:30</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Aula 37</div>
+          <div class="event-name">Dialogo tra Cina e mondo Latino</div>
+          <div class="desc">Un incontro culturale a cura degli studenti del P4F per esplorare i punti di contatto tra due grandi civilt&agrave;.</div>
+          <span class="tl-tag tag-cultura">Cultura</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="scienza">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Laboratorio Chimica</div>
+          <div class="event-name">LAB-SCIENZE: Energia in gioco e cucina molecolare</div>
+          <div class="desc">Esperimenti coinvolgenti sulla chimica del cibo e dell'energia, tra scienza e gastronomia.</div>
+          <span class="tl-tag tag-scienza">Scienza</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="scienza">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Aula Magna</div>
+          <div class="event-name">Progetto &#268;erenkov &mdash; L'Astrofisica delle Altissime Energie</div>
+          <div class="desc">A cura degli studenti della 4Bsa: un viaggio nell'astrofisica delle altissime energie e nella radiazione &#268;erenkov.</div>
+          <span class="tl-tag tag-scienza">Scienza</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="cultura">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Acquario</div>
+          <div class="event-name">Erasmus Corner</div>
+          <div class="desc">Un'installazione per rivivere le esperienze di mobilit&agrave; internazionale e conoscere il piano Erasmus+ della nostra scuola.</div>
+          <span class="tl-tag tag-cultura">Cultura</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="bambini">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Aula 36</div>
+          <div class="event-name">GIOCABIMBI</div>
+          <div class="desc">Attivit&agrave; ludiche pensate per i bambini dai 2 ai 10 anni: giochi, creativit&agrave; e tanto divertimento in totale sicurezza.</div>
+          <span class="tl-tag tag-bambini">Bambini</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="tecnologia">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Laboratorio Makerspace</div>
+          <div class="event-name">Laboratorio VR</div>
+          <div class="desc">Esperienze di realt&agrave; virtuale premiate a livello nazionale: sport, avventura, relax e tanto altro con i visori dei nostri studenti.</div>
+          <span class="tl-tag tag-tecnologia">Tecnologia</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="tecnologia">
+        <div class="tl-time"><span class="t">18:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Pensilina (Aule 51&ndash;52)</div>
+          <div class="event-name">Artigianato Digitale</div>
+          <div class="desc">Progetti degli studenti del Marconi: dal calcio da dita a miniature D&amp;D connesse alla rete, passando per tornei di videogiochi.</div>
+          <span class="tl-tag tag-tecnologia">Tecnologia</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="cultura">
+        <div class="tl-time"><span class="t">19:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Aula Magna</div>
+          <div class="event-name">Con Te Sto</div>
+          <div class="desc">Laboratorio psico-ludico di promozione del benessere a cura di B. Cimenti e G. Valdi.</div>
+          <span class="tl-tag tag-cultura">Cultura</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="tecnologia">
+        <div class="tl-time"><span class="t">19:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Aula 37</div>
+          <div class="event-name">Seminario Radio Marconi</div>
+          <div class="desc">La radio della scuola racconta s&eacute; stessa: dietro le quinte di una giornata in diretta.</div>
+          <span class="tl-tag tag-tecnologia">Tecnologia</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="tecnologia">
+        <div class="tl-time"><span class="t">19:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Laboratorio Elettrotecnica</div>
+          <div class="event-name">Escape Room</div>
+          <div class="desc">Un'esperienza immersiva progettata e realizzata interamente dagli studenti della 5Esa. Riuscirai a uscire?</div>
+          <span class="tl-tag tag-tecnologia">Tecnologia</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="musica">
+        <div class="tl-time"><span class="t">20:30</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Giardino Interno</div>
+          <div class="event-name">Balli / DJ Set</div>
+          <div class="desc">Musica e balli di gruppo nel giardino interno sotto le stelle.</div>
+          <span class="tl-tag tag-musica">Musica</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="scienza">
+        <div class="tl-time"><span class="t">21:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Giardino delle Scienze</div>
+          <div class="event-name">Osservazione Astronomica</div>
+          <div class="desc">Con i telescopi dell'Associazione Astrofili di Civitavecchia: stelle, pianeti e la Via Lattea a portata di sguardo.</div>
+          <span class="tl-tag tag-scienza">Scienza</span>
+        </div>
+      </div>
+
+      <div class="tl-item" data-cat="musica">
+        <div class="tl-time"><span class="t">21:00</span><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="location">Giardino Interno</div>
+          <div class="event-name">Concerto</div>
+          <div class="desc">Il gran finale musicale della serata: un concerto live per chiudere in bellezza la Notte Bianca al Marconi.</div>
+          <span class="tl-tag tag-musica">Musica</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Dove siamo</span>
+      <h2 class="section-title">Come raggiungerci</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="location-grid">
+      <div class="location-info reveal">
+        <h3>IIS G. Marconi</h3>
+        <p>Via Montello 20<br>00053 Civitavecchia (RM)</p>
+        <p style="margin-top:1rem; font-size:0.85rem; color:var(--text-dim); line-height:1.8;">
+          &#x1F4CD; Raggiungibile dal centro di Civitavecchia<br>
+          &#x1F68C; Servito da linee bus locali<br>
+          &#x1F697; Parcheggio nelle vie adiacenti
+        </p>
+        <p style="margin-top:1.5rem; font-size:0.85rem; color:var(--text-dim);">
+          L'evento &egrave; <strong style="color:var(--gold)">a ingresso libero</strong> e aperto a tutta la comunit&agrave;.
+        </p>
+        <a href="https://maps.google.com/?q=IIS+Marconi+Via+Montello+20+Civitavecchia" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:1.5rem; display:inline-block; font-size:0.75rem;">
+          Apri in Google Maps
+        </a>
+      </div>
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2961.123456!2d11.7963!3d42.0926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1323394e5f4d5555%3A0xabcdef1234567890!2sVia%20Montello%2C%2020%2C%2000053%20Civitavecchia%20RM!5e0!3m2!1sit!2sit!4v1716215000000!5m2!1sit!2sit"
+          allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mappa IIS Marconi Civitavecchia">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <div class="m-badge">M</div>
+    <h2>LIUCOS</h2>
+  </div>
+  <p>Notte Bianca al Marconi &middot; Venerd&igrave; 22 Maggio 2026 &middot; 17:00&ndash;23:00</p>
+  <p>IIS G. Marconi &middot; Via Montello 20, Civitavecchia (RM)</p>
+  <div class="sep"></div>
+  <p style="font-size:0.72rem;">&copy; 2026 IIS G. Marconi Civitavecchia &middot; Evento organizzato dagli studenti e dal corpo docente</p>
+</footer>
+
+<script>
+// Starfield
+(function() {
+  const sf = document.getElementById('starfield');
+  for (let i = 0; i < 180; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = (Math.random() * 2.5 + 0.5).toFixed(1);
+    s.style.cssText = [
+      'width:' + sz + 'px',
+      'height:' + sz + 'px',
+      'left:' + (Math.random()*100).toFixed(2) + '%',
+      'top:' + (Math.random()*100).toFixed(2) + '%',
+      '--dur:' + (Math.random()*5+2).toFixed(1) + 's',
+      '--delay:-' + (Math.random()*6).toFixed(1) + 's',
+      '--lo:' + (Math.random()*0.15+0.03).toFixed(2),
+      '--hi:' + (Math.random()*0.6+0.3).toFixed(2)
+    ].join(';');
+    sf.appendChild(s);
+  }
+})();
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open');
+});
+
+// Scroll reveal
+const revealObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (!e.isIntersecting) return;
+    const siblings = Array.from(e.target.parentElement.querySelectorAll('.reveal'));
+    e.target.style.transitionDelay = (siblings.indexOf(e.target) * 0.08) + 's';
+    e.target.classList.add('visible');
+    revealObs.unobserve(e.target);
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
+
+// Timeline filter
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.tl-item').forEach(function(item) {
+      item.classList.toggle('hidden', f !== 'all' && item.dataset.cat !== f);
+    });
+  });
+});
+
+// Active nav highlight
+const navLinks = document.querySelectorAll('.nav-links a');
+new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      navLinks.forEach(function(a) {
+        a.style.color = (a.getAttribute('href') === '#' + e.target.id) ? 'var(--gold)' : '';
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' }).observe && document.querySelectorAll('section[id]').forEach(function(s) {
+  new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) navLinks.forEach(function(a) {
+        a.style.color = (a.getAttribute('href') === '#' + e.target.id) ? 'var(--gold)' : '';
+      });
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
+});
+</script>
+</body>
+</html>
